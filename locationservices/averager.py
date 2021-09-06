@@ -1,4 +1,4 @@
-
+from locator import default_locator_gen
 from geopy import Location, Nominatim
 import time
 
@@ -15,13 +15,8 @@ class Address:
 Addr = Address  # shorthand
 
 
-def __default_locator_gen():
-    agent = 'myGeocoder'
-    return Nominatim(user_agent=agent)
-
-
 def average_locations(locs: [Addr],
-                      generate_locator=__default_locator_gen,
+                      generate_locator=default_locator_gen,
                       delay_s=1) -> Coordinate:
     """
     Takes in a number of addresses; returns the average of the address coordinates

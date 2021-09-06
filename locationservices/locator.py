@@ -1,7 +1,12 @@
-from geopy import Nominatim
+
 from averager import Addr, Coordinate, __default_locator_gen
 import googlemaps
 from googlemaps import places
+
+
+def default_locator_gen():
+    agent = 'myGeocoder'
+    return Nominatim(user_agent=agent)
 
 
 def __default_lookup(addr: Addr, dest) -> Addr:
@@ -17,7 +22,7 @@ def get_nearby(addr: Addr, nearby_dest="Wetherspoons",
 
 
 def __default_trans(c: Coordinate):
-    l = __default_locator_gen()
+    l = default_locator_gen()
     lat, long = c
     postcode = l.reverse(str(lat), str(long))
     address = Addr()

@@ -1,7 +1,7 @@
-
-from averager import Addr, Coordinate, __default_locator_gen
+from geopy import Nominatim
+from averager import Addr, Coordinate
 import googlemaps
-from googlemaps import places
+from googlemaps.places import places_nearby
 
 
 def default_locator_gen():
@@ -9,11 +9,25 @@ def default_locator_gen():
     return Nominatim(user_agent=agent)
 
 
-def __default_lookup(addr: Addr, dest) -> Addr:
+def __default_lookup(coord: Coordinate, dest) -> Addr:
+    gmaps = __gen_gmap()
+    default_radius = 5000  # 5km radius
+    nearby = places_nearby(
+        client=gmaps,
+        location=coord,
+        radius=default_radius,
+        keyword=dest,
+        rank_by='distance',
+        open_now=True)
+    if nearby['status'] == 200 and len(nearby['results']) > 0:
+        return nearby['results'][0]
+    else:
+        return None
+
+
+def __gen_gmap() -> googlemaps.Client:
     default_key = None  # TODO - get proper key
-    gmaps = googlemaps.Client(key=default_key)
-    gmaps.places.places_nearby()
-    return None
+    return googlemaps.Client(key=default_key)
 
 
 def get_nearby(addr: Addr, nearby_dest="Wetherspoons",

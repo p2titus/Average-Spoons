@@ -25,8 +25,20 @@ def __default_lookup(coord: Coordinate, dest) -> Addr:
         return None
 
 
+def __get_google_key():
+    import json
+    fname = 'keys.json'
+    ks = None
+    with open(fname) as f:
+        ks = json.load(f)
+    if ks is not None:
+        return ks['google_key']['key']
+    else:
+        return None
+
+
 def __gen_gmap() -> googlemaps.Client:
-    default_key = None  # TODO - get proper key
+    default_key = __get_google_key()
     return googlemaps.Client(key=default_key)
 
 

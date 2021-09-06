@@ -1,5 +1,4 @@
-import geopandas
-import geopy
+
 from geopy import Location, Nominatim
 import time
 
@@ -18,12 +17,17 @@ def __default_locator_gen():
     return Nominatim(user_agent=agent)
 
 
-"""
-delay_s is to ensure apis aren't queried too frequently
-"""
 def average_locations(locs: [Addr],
                       generate_locator=__default_locator_gen,
                       delay_s=1) -> Coordinate:
+    """
+    Takes in a number of addresses; returns the average of the address coordinates
+
+    :param locs: a list containing all addresses to be averaged
+    :param generate_locator: the locator to be used - specified from geopy by the calling module. Default is Nominatim
+    :param delay_s: the delay between queries to the API. Default is 1 second
+    :return:
+    """
     locator = generate_locator()
     coords = map(lambda loc: __loc_to_coords(loc, locator), locs)
     n = len(locs)

@@ -1,15 +1,7 @@
 from .locator import default_locator_gen
+from .containers import *
 from geopy import Location, Nominatim
 import time
-
-Coordinate = (float, float)  # lat, long
-
-
-class Addr:
-    house: str
-    line1: str
-    line2: str
-    postcode: str
 
 
 def average_locations(locs: [Addr],

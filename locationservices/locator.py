@@ -1,5 +1,5 @@
 from geopy import Nominatim
-from .averager import Addr, Coordinate
+from .containers import *
 import googlemaps
 from googlemaps.places import places_nearby
 

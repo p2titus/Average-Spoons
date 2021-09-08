@@ -20,7 +20,6 @@ def average_locations(locs: [Addr],
     coords = map(f, locs)
     n = len(locs)
     latacc, longacc = 0, 0
-    print(locs)
 
     for coord in coords:
         latacc += coord.latitude

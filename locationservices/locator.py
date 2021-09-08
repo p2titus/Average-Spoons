@@ -9,20 +9,41 @@ def default_locator_gen():
     return Nominatim(user_agent=agent)
 
 
-def __locate(addr: Addr, locator):
+'''def __locate(addr: Addr, locator):
     x = __stringify_addr(addr)
     locator.geocode()
 
 
 def __stringify_addr(addr):
-    pass
+    pass'''
 
 
-def __default_lookup(coord: Coordinate, dest) -> Addr:
+def __parse_gmap(pub: dict) -> Addr:
+    x: str = pub['vicinity']
+    a = Addr()
+    a.house = pub['name']
+    y = x.split(sep=', ')
+    if len(y) >= 1:
+        a.line1 = y[0]
+        if len(y) >= 2:
+            a.line2 = y[1]
+    a.postcode = None
+
+    return a  # gmaps api doesn't return a postcode as global - not worth the extra hassle for the use case
+
+
+def __default_lookup(coord: Coordinate, dest) -> Optional[Addr]:
+    """
+    The default implementation that looks up the nearest destination.
+    This queries the Google Maps API with the provided destination string
+    It then takes the head of any results returned and returns that
+
+    :param coord: the coordinates of the average location
+    :param dest: the destination to find near the location
+    :return: address of the closest location
+    """
     gmaps = __gen_gmap()
-    print('before query')
     x = coord.latitude, coord.longitude
-    print(x)
     # default_radius = 5000  # 5km radius
     nearby = places_nearby(
         client=gmaps,
@@ -31,10 +52,9 @@ def __default_lookup(coord: Coordinate, dest) -> Addr:
         keyword=dest,
         rank_by='distance',
         open_now=True)
-    print('after query')
-    print(nearby)
-    if nearby is not None and nearby['status'] == 200 and len(nearby['results']) > 0:
-        return nearby['results'][0]
+    if nearby is not None and len(nearby['results']) > 0:  # if we find a local destination
+        a = __parse_gmap(nearby['results'][0])
+        return a
     else:
         return None
 
@@ -43,7 +63,6 @@ def __get_google_key():
     import json
     import os
     fname = 'locationservices/keys.json'
-    print(os.path.exists(fname))
     with open(fname) as f:
         ks = json.load(f)
     if ks is not None:

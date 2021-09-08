@@ -1,6 +1,5 @@
 from .locator import default_locator_gen
 from .containers import *
-from geopy import Location, Nominatim
 import time
 
 
@@ -26,7 +25,10 @@ def average_locations(locs: [Addr],
         time.sleep(delay_s)
 
     if n > 0:
-        return latacc/n, longacc/n
+        l = Coordinate()
+        l.latitude = latacc/n
+        l.longitude = longacc/n
+        return l
     else:
         return None
 

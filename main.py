@@ -1,8 +1,10 @@
-def find_closest_spoons(addr):
+def find_closest_spoons(addrs):
     import locationservices
-    avg = locationservices.average_locations(addr)
-    pub = locationservices.get_nearby(avg)
-    print(pub)
+    avg = locationservices.average_locations(addrs)
+    if avg is not None:
+        return locationservices.get_nearby(avg)
+    else:
+        return None
 
 
 def __gen_buck_palace():
@@ -14,5 +16,9 @@ def __gen_buck_palace():
 
 
 if __name__ == '__main__':
-    addrs = []
-    find_closest_spoons(addrs)
+    addrs = [__gen_buck_palace()]
+    pub = find_closest_spoons(addrs)
+    if pub is None:
+        print('error - no closest pub')
+    else:
+        print('success')

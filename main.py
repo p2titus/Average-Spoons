@@ -14,5 +14,5 @@ def __gen_buck_palace():
 
 
 if __name__ == '__main__':
-    addrs = None
+    addrs = []
     find_closest_spoons(addrs)

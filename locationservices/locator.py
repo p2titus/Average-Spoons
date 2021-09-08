@@ -14,6 +14,10 @@ def __locate(addr: Addr, locator):
     locator.geocode()
 
 
+def __stringify_addr(addr):
+    pass
+
+
 def __default_lookup(coord: Coordinate, dest) -> Addr:
     gmaps = __gen_gmap()
     default_radius = 5000  # 5km radius

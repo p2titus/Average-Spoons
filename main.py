@@ -11,8 +11,10 @@ def __gen_buck_palace():
     from locationservices.averager import Addr
     a = Addr()
     a.house = 'Buckingham Palace'
+    a.line1 = ''
     a.line2 = 'London'
     a.postcode = 'SW1A 1AA'
+    return a
 
 
 if __name__ == '__main__':

@@ -32,8 +32,9 @@ def __default_lookup(coord: Coordinate, dest) -> Addr:
 
 def __get_google_key():
     import json
-    fname = 'keys.json'
-    ks = None
+    import os
+    fname = 'locationservices/keys.json'
+    print(os.path.exists(fname))
     with open(fname) as f:
         ks = json.load(f)
     if ks is not None:
@@ -43,14 +44,21 @@ def __get_google_key():
 
 
 def __gen_gmap() -> googlemaps.Client:
-    return None
-    '''
     default_key = __get_google_key()
-    return googlemaps.Client(key=default_key)'''
+    return googlemaps.Client(key=default_key)
 
 
 def get_nearby(addr: Addr, nearby_dest="Wetherspoons",
                lookup_nearby=__default_lookup) -> Addr:
+    """
+    Returns the closest result from a search on the provided geolocator with the provided phrase
+
+    :param addr: the address to search from - in the default program this is the average address
+    :param nearby_dest: the keyword to search for - this finds the nearest Wetherspoons by default
+    :param lookup_nearby: the geolocator service to look for the nearest keyword in - by default this is google maps
+    Please note that as per the documentation, you will have to provide your own key for the gmaps API
+    :return: the address of the nearest keyword (by default the nearest Wetherspoons)
+    """
     return lookup_nearby(addr, nearby_dest)
 
 

@@ -1,18 +1,15 @@
-from locator import default_locator_gen
+from .locator import default_locator_gen
 from geopy import Location, Nominatim
 import time
 
 Coordinate = (float, float)  # lat, long
 
 
-class Address:
+class Addr:
     house: str
     line1: str
     line2: str
     postcode: str
-
-
-Addr = Address  # shorthand
 
 
 def average_locations(locs: [Addr],
@@ -42,5 +39,5 @@ def average_locations(locs: [Addr],
         return None
 
 
-def __loc_to_coords(loc: Location, ltr):
+def __loc_to_coords(loc: Addr, ltr):
     return ltr.geocode(loc)

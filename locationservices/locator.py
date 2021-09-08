@@ -1,5 +1,5 @@
 from geopy import Nominatim
-from averager import Addr, Coordinate
+from .averager import Addr, Coordinate
 import googlemaps
 from googlemaps.places import places_nearby
 
@@ -7,6 +7,11 @@ from googlemaps.places import places_nearby
 def default_locator_gen():
     agent = 'myGeocoder'
     return Nominatim(user_agent=agent)
+
+
+def __locate(addr: Addr, locator):
+    x = __stringify_addr(addr)
+    locator.geocode()
 
 
 def __default_lookup(coord: Coordinate, dest) -> Addr:
@@ -38,8 +43,10 @@ def __get_google_key():
 
 
 def __gen_gmap() -> googlemaps.Client:
+    return None
+    '''
     default_key = __get_google_key()
-    return googlemaps.Client(key=default_key)
+    return googlemaps.Client(key=default_key)'''
 
 
 def get_nearby(addr: Addr, nearby_dest="Wetherspoons",

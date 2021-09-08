@@ -46,8 +46,8 @@ def __gen_buck_palace():
 
 
 if __name__ == '__main__':
-    addrs = [__gen_buck_palace()]
-    # addrs = __input_addrs()
+    # addrs = [__gen_buck_palace()]
+    addrs = __input_addrs()
     pub = find_closest_spoons(addrs)
     if pub is None:
         print('error - no closest pub')

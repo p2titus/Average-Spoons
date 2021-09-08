@@ -12,10 +12,12 @@ def average_locations(locs: [Addr],
     :param locs: a list containing all addresses to be averaged
     :param generate_locator: the locator to be used - specified from geopy by the calling module. Default is Nominatim
     :param delay_s: the delay between queries to the API. Default is 1 second
-    :return:
+    :return: container Coordinate containing average latitude and longitude as the crow flies
     """
+
     locator = generate_locator()
-    coords = map(lambda loc: __loc_to_coords(loc, locator), locs)
+    f = lambda loc: __loc_to_coords(loc, locator)
+    coords = map(f, locs)
     n = len(locs)
     latacc, longacc = 0, 0
 

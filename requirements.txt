@@ -1,0 +1,2 @@
+googlemaps~=4.5.3
+geopy~=2.2.0

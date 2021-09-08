@@ -1,3 +1,6 @@
+from locationservices import Addr
+
+
 def find_closest_spoons(addrs):
     import locationservices
     avg = locationservices.average_locations(addrs)
@@ -7,8 +10,33 @@ def find_closest_spoons(addrs):
         return None
 
 
+def __input_addrs():
+    xs = []
+    x = ''
+
+    while x != 'finish':
+        xs.append(__get_addr())
+        x = input("Input 'finish' if you wish to end address input")
+
+    return xs
+
+
+def __get_addr() -> Addr:
+    house = input('\nPlease input house name:\n')
+    line1 = input('\nPlease input the next line of an address:\n')
+    line2 = input('\nPlease input the next line of an address:\n')
+    postcode = input('\nPlease input the postcode:\n')
+
+    a = Addr()
+    a.house = house
+    a.line1 = line1
+    a.line2 = line2
+    a.postcode = postcode
+
+    return a
+
+
 def __gen_buck_palace():
-    from locationservices.averager import Addr
     a = Addr()
     a.house = 'Buckingham Palace'
     a.line1 = ''
@@ -18,7 +46,7 @@ def __gen_buck_palace():
 
 
 if __name__ == '__main__':
-    addrs = [__gen_buck_palace()]
+    addrs = __input_addrs()
     pub = find_closest_spoons(addrs)
     if pub is None:
         print('error - no closest pub')

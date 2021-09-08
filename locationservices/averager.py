@@ -20,6 +20,7 @@ def average_locations(locs: [Addr],
     coords = map(f, locs)
     n = len(locs)
     latacc, longacc = 0, 0
+    print(locs)
 
     for coord in coords:
         latacc += coord.latitude
@@ -36,4 +37,10 @@ def average_locations(locs: [Addr],
 
 
 def __loc_to_coords(loc: Addr, ltr):
-    return ltr.geocode(loc)
+    place = f"""
+    {loc.house},
+    {loc.line1},
+    {loc.line2},
+    {loc.postcode}
+    """
+    return ltr.geocode(place)

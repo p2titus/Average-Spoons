@@ -20,15 +20,20 @@ def __stringify_addr(addr):
 
 def __default_lookup(coord: Coordinate, dest) -> Addr:
     gmaps = __gen_gmap()
-    default_radius = 5000  # 5km radius
+    print('before query')
+    x = coord.latitude, coord.longitude
+    print(x)
+    # default_radius = 5000  # 5km radius
     nearby = places_nearby(
         client=gmaps,
-        location=coord,
-        radius=default_radius,
+        location=x,
+        # radius=default_radius,
         keyword=dest,
         rank_by='distance',
         open_now=True)
-    if nearby['status'] == 200 and len(nearby['results']) > 0:
+    print('after query')
+    print(nearby)
+    if nearby is not None and nearby['status'] == 200 and len(nearby['results']) > 0:
         return nearby['results'][0]
     else:
         return None
@@ -52,7 +57,7 @@ def __gen_gmap() -> googlemaps.Client:
     return googlemaps.Client(key=default_key)
 
 
-def get_nearby(addr: Addr, nearby_dest="Wetherspoons",
+def get_nearby(coord: Coordinate, nearby_dest="Wetherspoons",
                lookup_nearby=__default_lookup) -> Addr:
     """
     Returns the closest result from a search on the provided geolocator with the provided phrase
@@ -63,7 +68,7 @@ def get_nearby(addr: Addr, nearby_dest="Wetherspoons",
     Please note that as per the documentation, you will have to provide your own key for the gmaps API
     :return: the address of the nearest keyword (by default the nearest Wetherspoons)
     """
-    return lookup_nearby(addr, nearby_dest)
+    return lookup_nearby(coord, nearby_dest)
 
 
 def __default_trans(c: Coordinate):
